@@ -10,8 +10,9 @@
   "author": "Daniel Santos <dsantos0495@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "consolidate": "^0.16.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "mongodb": "^3.6.3",
     "pug": "^3.0.0"
   }
 }
