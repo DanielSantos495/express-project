@@ -31,9 +31,9 @@ router.get('/:productId', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-   const { body } = req;
+   const { body: product } = req;
    try {
-      const createdProduct = await productService.createProduct({ body });
+      const createdProduct = await productService.createProduct({ product });
       res.status(201).json({
          data: createdProduct,
          message: 'Product listed'
@@ -45,9 +45,9 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:productId', async (req, res, next) => {
    const { productId } = req.params;
-   const { body } = req;
+   const { body: product } = req;
    try {
-      const updateProduct = await productService.updateProduct({ productId, body });
+      const updateProduct = await productService.updateProduct({ productId, product });
       res.status(200).json({
          data: updateProduct,
          message: 'Product updated'
@@ -57,19 +57,19 @@ router.put('/:productId', async (req, res, next) => {
    }
 });
 
-router.patch('/:productId', async (req, res, next) => {
-   const { productId } = req.params;
-   const { body } = req;
-   try {
-      const updateDetailProduct = await productService.updateDetailProduct({ productId, body });
-      res.status(200).json({
-         data: updateDetailProduct,
-         message: 'Product updated detail'
-      });
-   } catch(err) {
-      next(err);
-   }
-});
+// router.patch('/:productId', async (req, res, next) => {
+//    const { productId } = req.params;
+//    const { body: product } = req;
+//    try {
+//       const updateDetailProduct = await productService.updateDetailProduct({ productId, product });
+//       res.status(200).json({
+//          data: updateDetailProduct,
+//          message: 'Product updated detail'
+//       });
+//    } catch(err) {
+//       next(err);
+//    }
+// });
 
 router.delete('/:productId', async (req, res, next) => {
    const { productId } = req.params;
