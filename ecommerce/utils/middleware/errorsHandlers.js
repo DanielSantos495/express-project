@@ -1,7 +1,16 @@
+const Sentry = require('@sentry/node');
 const { config } = require('../../config');
+
+// Sentry for error logs
+Sentry.init({
+   dsn: `https://${config.sentryDns}@o502842.ingest.sentry.io/${config.sentryId}`,
+
+   tracesSampleRate: 1.0,
+ });
 
 // Usando el next el primera middleware va pasando al segundo y así
 function logError(err, req, res, next) {
+   Sentry.captureException(err);
    console.error(err.stack);
    next(err);
 }
