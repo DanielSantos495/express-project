@@ -1,6 +1,13 @@
 const express = require('express');
       router = express.Router();
 const ProductService = require('../../services/products');
+      validationData = require('../../utils/middleware/validationHandler');
+const {
+   productIdSchema,
+   productTagSchema,
+   createProductSchema,
+   updateProductSchema
+} = require('../../utils/schemas/products');
 
 const productService = new ProductService();
 
@@ -30,7 +37,7 @@ router.get('/:productId', async (req, res, next) => {
    }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', validationData(createProductSchema), async (req, res, next) => {
    const { body: product } = req;
    try {
       const createdProduct = await productService.createProduct({ product });
@@ -43,18 +50,22 @@ router.post('/', async (req, res, next) => {
    }
 });
 
-router.put('/:productId', async (req, res, next) => {
-   const { productId } = req.params;
-   const { body: product } = req;
-   try {
-      const updateProduct = await productService.updateProduct({ productId, product });
-      res.status(200).json({
-         data: updateProduct,
-         message: 'Product updated'
-      });
-   } catch(err) {
-      next(err);
-   }
+router.put(
+   '/:productId',
+   validationData(productIdSchema, 'params'),
+   validationData(updateProductSchema),
+   async (req, res, next) => {
+      const { productId } = req.params;
+      const { body: product } = req;
+      try {
+         const updateProduct = await productService.updateProduct({ productId, product });
+         res.status(200).json({
+            data: updateProduct,
+            message: 'Product updated'
+         });
+      } catch(err) {
+         next(err);
+      }
 });
 
 // router.patch('/:productId', async (req, res, next) => {

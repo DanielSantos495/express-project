@@ -1,8 +1,10 @@
 const express = require('express');
+      isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi');
+      boom = require('boom');
       path = require('path');
       productsRouter = require('./routes/views/products');
       productsApiRouter = require('./routes/api/products');
-      const { logError, clientErrorHandler, errorHandler } = require('./utils/middleware/errorsHandlers');
+      const { logError, wrapErrors, clientErrorHandler, errorHandler } = require('./utils/middleware/errorsHandlers');
       // app
       app = express();
 
@@ -28,8 +30,23 @@ app.get('/', (req, res) => {
    res.redirect('products')
 });
 
+// error 404
+app.use((req, res, next) => {
+   // validamos si ajax o api de la api para enviar un json
+   if (isRequestAjaxOrApi(req)) {
+      const {
+         output: { statusCode, payload }
+      } = boom.notFound();
+
+      res.status(statusCode).json(payload);
+   }
+// sino enviamos la página 404, si es del cliente
+   res.status(404).render('404');
+})
+
 // Error handler
 app.use(logError);
+app.use(wrapErrors);
 app.use(clientErrorHandler);
 app.use(errorHandler);
 
