@@ -4,6 +4,7 @@ const express = require('express');
       path = require('path');
       productsRouter = require('./routes/views/products');
       productsApiRouter = require('./routes/api/products');
+      authApiRouter = require('./routes/api/auth');
       const { logError, wrapErrors, clientErrorHandler, errorHandler } = require('./utils/middleware/errorsHandlers');
       // app
       app = express();
@@ -24,6 +25,7 @@ app.set('view engine', 'pug');
 // Routes
 app.use('/products', productsRouter);
 app.use('/api/products', productsApiRouter);
+app.use('/api/auth', authApiRouter);
 
 // Redirect
 app.get('/', (req, res) => {
