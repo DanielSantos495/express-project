@@ -20,12 +20,11 @@ router.post('/token', async (req, res, next) => {
             if (err) {
                next(err);
             }
-            const payload = { sub: user.name, email: user.email };
+            const payload = { sub: user.username, email: user.email };
             const token = jwt.sign(payload, config.authJwtSecret, {
                // Tiempo de expiración del token
                 expiresIn: '15m'
             });
-
             return res.status(200).json({ access_token: token });
          });
       } catch(error) {
