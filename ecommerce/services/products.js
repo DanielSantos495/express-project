@@ -1,4 +1,3 @@
-const productMock = require('../utils/mocks/products');
 const MongoLib = require('../lib/monog');
 
 class ProductService {
