@@ -1,13 +1,13 @@
 const express = require('express');
-      isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi');
-      boom = require('boom');
-      path = require('path');
-      productsRouter = require('./routes/views/products');
-      productsApiRouter = require('./routes/api/products');
-      authApiRouter = require('./routes/api/auth');
-      const { logError, wrapErrors, clientErrorHandler, errorHandler } = require('./utils/middleware/errorsHandlers');
-      // app
-      app = express();
+const isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi');
+const boom = require('boom');
+const path = require('path');
+const productsRouter = require('./routes/views/products');
+const productsApiRouter = require('./routes/api/products');
+const authApiRouter = require('./routes/api/auth');
+const { logError, wrapErrors, clientErrorHandler, errorHandler } = require('./utils/middleware/errorsHandlers');
+// app
+const app = express();
 
 
 // Middlewares
@@ -24,7 +24,8 @@ app.set('view engine', 'pug');
 
 // Routes
 app.use('/products', productsRouter);
-app.use('/api/products', productsApiRouter);
+// Patrón de inversión de control
+productsApiRouter(app);
 app.use('/api/auth', authApiRouter);
 
 // Redirect
