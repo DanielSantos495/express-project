@@ -1,4 +1,5 @@
 const boom = require('boom');
+const debug = require('debug')('app:error')
 const Sentry = require('@sentry/node');
 const { config } = require('../../config');
 const isRequestAjaxOrApi = require('../isRequestAjaxOrApi');
@@ -21,7 +22,7 @@ function withErrorStack(err, stack) {
 // Usando el next el primera middleware va pasando al segundo y así
 function logError(err, req, res, next) {
    Sentry.captureException(err);
-   console.error(err.stack);
+   debug(err.stack);
    next(err);
 }
 
