@@ -8,6 +8,8 @@ const {
    createProductSchema,
    updateProductSchema
 } = require('../../utils/schemas/products');
+const cacheResponse = require('../../utils/cacheResponse');
+const { FIVE_MINUTES_IN_SECONDS, SIXTY_MINUTES_IN_SECONDS } = require('../../utils/time');
 
 // JWT strategy
 require('../../utils/auth/strategies/jwt');
@@ -20,6 +22,7 @@ function productsApi(app) {
    app.use('/api/products', router);
 
    router.get('/', async (req, res, next) => {
+      cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
       const { tags } = req.query;
       try {
          const products = await productService.getProducts({ tags })
@@ -33,6 +36,7 @@ function productsApi(app) {
    });
 
    router.get('/:productId', async (req, res, next) => {
+      cacheResponse(res, SIXTY_MINUTES_IN_SECONDS);
       const { productId } = req.params;
       try {
          const product = await productService.getProduct({ productId });

@@ -1,8 +1,10 @@
 const express = require('express');
-const isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi');
 const boom = require('boom');
 const debug = require('debug')('app:server')
 const path = require('path');
+const helmet = require('helmet');
+const cors = require('cors');
+const isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi');
 const productsRouter = require('./routes/views/products');
 const productsApiRouter = require('./routes/api/products');
 const authApiRouter = require('./routes/api/auth');
@@ -12,6 +14,9 @@ const app = express();
 
 
 // Middlewares
+// Así para todos los domonios
+app.use(cors())
+app.use(helmet());
 app.use(express.json());
 
 // Static files
