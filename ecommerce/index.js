@@ -2,8 +2,10 @@ const express = require('express');
       path = require('path');
       productsRouter = require('./routes/views/products');
       productsApiRouter = require('./routes/api/products');
+      const { logError, clientErrorHandler, errorHandler } = require('./utils/middleware/errorsHandlers');
       // app
       app = express();
+
 
 // Middlewares
 app.use(express.json());
@@ -24,7 +26,12 @@ app.use('/api/products', productsApiRouter);
 // Redirect
 app.get('/', (req, res) => {
    res.redirect('products')
-})
+});
+
+// Error handler
+app.use(logError);
+app.use(clientErrorHandler);
+app.use(errorHandler);
 
 // Server
 const server = app.listen(8000, () => {
