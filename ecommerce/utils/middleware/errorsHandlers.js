@@ -39,7 +39,7 @@ function clientErrorHandler(err, req, res, next) {
    const {
       output: { statusCode, payload }
    } = err;
-   // Catch errors for AJAX request or if an error ocurrs while straming
+   // Catch errors for AJAX request or if an error ocurrs while streaming
    // res.headersSent para capturar errores en archivos de tipo string, porque express no los reconoce
    if (isRequestAjaxOrApi(req) || res.headersSent) {
       res.status(statusCode).json(withErrorStack(payload, err.stack));

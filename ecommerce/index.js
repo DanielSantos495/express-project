@@ -14,7 +14,7 @@ const app = express();
 
 
 // Middlewares
-// Así para todos los domonios
+// Así para todos los dominios
 app.use(cors())
 app.use(helmet());
 app.use(express.json());
